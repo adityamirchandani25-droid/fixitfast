@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 import { DM_Sans, Public_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { NavigationTransition } from "@/components/navigation-transition";
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           </Suspense>
           <ThemeToggle />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
