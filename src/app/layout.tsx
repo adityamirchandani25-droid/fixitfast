@@ -5,6 +5,7 @@ import { DM_Sans, Public_Sans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { NavigationTransition } from "@/components/navigation-transition";
+import { CookieNotice } from "@/components/cookie-notice";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 import "./motion.css";
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Suspense fallback={null}>
             <NavigationTransition />
           </Suspense>
+          <CookieNotice />
           <ThemeToggle />
         </ThemeProvider>
       </body>

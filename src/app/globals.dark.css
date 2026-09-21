@@ -3,6 +3,8 @@
    significantly — do not hand-edit color values here. */
 [data-theme="dark"] a:focus-visible, [data-theme="dark"] button:focus-visible, [data-theme="dark"] summary:focus-visible, [data-theme="dark"] select:focus-visible { outline: 3px solid #9dbaf1; }
 [data-theme="dark"] .skip-link { background: #121212; }
+[data-theme="dark"] .cookie-notice { border-color: #273141; background: rgb(18 18 18 / .97); color: #eef1f6; box-shadow: 0 18px 45px -18px #000; }
+[data-theme="dark"] .cookie-notice p { color: #a0aab8; }
 [data-theme="dark"] .product-home { background: #13161c; }
 [data-theme="dark"] .product-header { background: #121212; }
 [data-theme="dark"] .product-header nav a { color: #8993a0; }
@@ -83,6 +85,7 @@
 [data-theme="dark"] .ts-account-switch a { color: #a8b0bc; }
 [data-theme="dark"] .ts-account-switch a[aria-current] { color: #557de2; border-bottom-color: #557de2; }
 [data-theme="dark"] .ts-auth-page > footer { color: #8995a6; }
+[data-theme="dark"] .ts-auth-consent label { color: #a8b1bf; }
 [data-theme="dark"] .ts-worker-page { background: #13161c; }
 [data-theme="dark"] .ts-worker-page .ts-header { border-bottom: 1px solid #1c2530; }
 [data-theme="dark"] .ts-worker-label { color: #8995a6; }

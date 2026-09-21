@@ -226,6 +226,9 @@ async function createAccount(
           full_name: name,
           phone: normalizedPhone,
           account_role: role,
+          age_confirmed: true,
+          terms_accepted_at: new Date().toISOString(),
+          terms_version: "2026-09-21",
           ...(role === "PROVIDER" && workerInput.success
             ? { category: workerInput.data.category }
             : {}),

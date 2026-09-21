@@ -85,6 +85,8 @@
 .landing-contact-card strong { display: block; font-size: 17px; font-weight: 600; letter-spacing: -.2px; }
 .landing-contact-card .landing-contact-role { display: block; margin-top: 5px; color: #78b4ff; font-size: 11px; font-weight: 650; letter-spacing: .7px; text-transform: uppercase; }
 .landing-contact-card .landing-contact-phone { display: block; margin-top: 5px; color: #94abc4; font-size: 13px; letter-spacing: .4px; }
+.landing-contact-card .landing-contact-email { display: block; width: fit-content; margin-top: 4px; color: #c0d2e5; font-size: 12px; letter-spacing: .1px; }
+.landing-contact-card .landing-contact-email:hover { color: white; text-decoration: underline; }
 .landing-contact-call { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%; background: #0d6ff0; color: white; transition: background .2s, transform .2s; }
 .landing-contact-card:hover .landing-contact-call { background: #2d89ff; transform: rotate(-8deg); }
 .landing-last { max-width: 1200px; padding: 0 30px 60px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 30px; }

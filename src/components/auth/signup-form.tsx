@@ -49,7 +49,10 @@ export function SignupForm({ callbackUrl, portal = "CUSTOMER" }: { callbackUrl: 
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<SignUpInput>({ resolver: zodResolver(signUpSchema) });
+  } = useForm<SignUpInput>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: { ageConfirmed: false, termsAccepted: false },
+  });
 
   async function onSubmit(values: SignUpInput) {
     setFormError(null);
@@ -124,6 +127,37 @@ export function SignupForm({ callbackUrl, portal = "CUSTOMER" }: { callbackUrl: 
             {...register("password")}
           />
         </Field>
+
+        <div className="ts-auth-consent">
+          <label htmlFor="age-confirmed">
+            <input
+              id="age-confirmed"
+              type="checkbox"
+              aria-invalid={!!errors.ageConfirmed}
+              {...register("ageConfirmed")}
+            />
+            <span>I confirm that I am 13 years of age or older.</span>
+          </label>
+          {errors.ageConfirmed && <p role="alert">{errors.ageConfirmed.message}</p>}
+        </div>
+
+        <div className="ts-auth-consent">
+          <label htmlFor="terms-accepted">
+            <input
+              id="terms-accepted"
+              type="checkbox"
+              aria-invalid={!!errors.termsAccepted}
+              {...register("termsAccepted")}
+            />
+            <span>
+              I agree to the{" "}
+              <Link href="/terms" target="_blank" rel="noopener noreferrer" className="text-brand-700 underline hover:text-brand-800">
+                Terms of Service
+              </Link>.
+            </span>
+          </label>
+          {errors.termsAccepted && <p role="alert">{errors.termsAccepted.message}</p>}
+        </div>
 
         {formError && <p role="alert" className="text-[13px] text-red-600">{formError}</p>}
         {successMessage && <p role="status" className="text-[13px] text-emerald-700">{successMessage}</p>}

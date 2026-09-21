@@ -10,6 +10,12 @@ export const signUpSchema = z.object({
     .optional()
     .refine((v) => !v || normalizePhone(v) !== null, "Enter a valid US phone number"),
   password: z.string().min(8, "Use at least 8 characters"),
+  ageConfirmed: z
+    .boolean()
+    .refine((confirmed) => confirmed, "Confirm that you are at least 13 years old"),
+  termsAccepted: z
+    .boolean()
+    .refine((accepted) => accepted, "Accept the Terms of Service to continue"),
 });
 
 export type SignUpInput = z.infer<typeof signUpSchema>;
