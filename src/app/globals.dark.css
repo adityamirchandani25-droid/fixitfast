@@ -5,6 +5,8 @@
 [data-theme="dark"] .skip-link { background: #121212; }
 [data-theme="dark"] .cookie-notice { border-color: #273141; background: rgb(18 18 18 / .97); color: #eef1f6; box-shadow: 0 18px 45px -18px #000; }
 [data-theme="dark"] .cookie-notice p { color: #a0aab8; }
+[data-theme="dark"] .cookie-notice button.secondary { border-color: #364152; color: #c8d0dc; }
+[data-theme="dark"] .cookie-notice button.secondary:hover { background: #202630; }
 [data-theme="dark"] .product-home { background: #13161c; }
 [data-theme="dark"] .product-header { background: #121212; }
 [data-theme="dark"] .product-header nav a { color: #8993a0; }

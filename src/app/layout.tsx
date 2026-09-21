@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { NavigationTransition } from "@/components/navigation-transition";
 import { CookieNotice } from "@/components/cookie-notice";
+import { GoogleAnalytics } from "@/components/google-analytics";
 import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 import "./motion.css";
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <NavigationTransition />
           </Suspense>
           <CookieNotice />
+          <GoogleAnalytics />
           <ThemeToggle />
         </ThemeProvider>
       </body>
