@@ -1,9 +1,12 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import {
   COOKIE_CONSENT_EVENT,
   COOKIE_CONSENT_NAME,
+  COOKIE_CONSENT_REOPEN_EVENT,
+  reopenCookieConsent,
 } from "@/lib/cookie-consent";
 
 const ONE_YEAR_SECONDS = 60 * 60 * 24 * 365;
@@ -12,15 +15,17 @@ export function CookieNotice() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    const hasConsent = document.cookie
-      .split("; ")
-      .some((cookie) => cookie.startsWith(`${COOKIE_CONSENT_NAME}=`));
-
-    if (!hasConsent) {
-      // The cookie jar only exists in the browser, after hydration.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setVisible(true);
+    function checkConsent() {
+      const hasConsent = document.cookie
+        .split("; ")
+        .some((cookie) => cookie.startsWith(`${COOKIE_CONSENT_NAME}=`));
+      setVisible(!hasConsent);
     }
+
+    // The cookie jar only exists in the browser, after hydration.
+    checkConsent();
+    window.addEventListener(COOKIE_CONSENT_REOPEN_EVENT, checkConsent);
+    return () => window.removeEventListener(COOKIE_CONSENT_REOPEN_EVENT, checkConsent);
   }, []);
 
   function saveConsent(value: "accepted" | "essential") {
@@ -36,12 +41,35 @@ export function CookieNotice() {
     <aside className="cookie-notice" aria-label="Cookie notice">
       <div>
         <strong>Cookies on FixItFast</strong>
-        <p>We use essential cookies for secure sign-in and preferences. With your permission, Google Analytics helps us understand site usage.</p>
+        <p>
+          We use essential cookies to keep you signed in. With your permission, Google Analytics also helps us
+          understand site usage — it’s off until you say yes. Read our{" "}
+          <Link href="/cookies" className="underline">Cookie Policy</Link> or{" "}
+          <Link href="/privacy" className="underline">Privacy Policy</Link>.
+        </p>
       </div>
       <div className="cookie-notice-actions">
-        <button type="button" className="secondary" onClick={() => saveConsent("essential")}>Essential only</button>
+        <button type="button" className="secondary" onClick={() => saveConsent("essential")}>
+          Reject non-essential
+        </button>
         <button type="button" onClick={() => saveConsent("accepted")}>Accept all</button>
       </div>
     </aside>
+  );
+}
+
+/**
+ * Lets a visitor reopen the banner and change their earlier choice — shown
+ * on the Cookie Policy page, since the banner itself only appears once.
+ */
+export function CookiePreferencesButton() {
+  return (
+    <button
+      type="button"
+      onClick={reopenCookieConsent}
+      className="mt-3 inline-flex items-center rounded-lg border border-border bg-surface-raised px-4 py-2 text-sm font-medium text-ink-800 hover:border-ink-300 hover:bg-ink-50"
+    >
+      Change my cookie choice
+    </button>
   );
 }

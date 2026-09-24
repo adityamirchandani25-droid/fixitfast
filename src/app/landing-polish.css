@@ -218,9 +218,12 @@
 .landing-product-preview::after {
   content: "LIVE COVERAGE";
   position: absolute;
+  z-index: 2;
   right: -18px;
   top: 76px;
-  padding: 9px 12px 9px 26px;
+  box-sizing: border-box;
+  inline-size: 140px;
+  padding: 10px 16px 10px 40px;
   color: #fff;
   background: #111722;
   border: 1px solid rgb(255 255 255 / .12);
@@ -228,13 +231,16 @@
   box-shadow: 0 12px 28px rgb(0 0 0 / .22);
   font-size: 9px;
   font-weight: 750;
+  line-height: 1;
   letter-spacing: 1.2px;
+  text-align: right;
+  white-space: nowrap;
 }
 .landing-product-preview::before {
   content: "";
   position: absolute;
   z-index: 3;
-  right: 83px;
+  right: 98px;
   top: 88px;
   width: 6px;
   height: 6px;

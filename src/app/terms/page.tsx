@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
-import { BrandLogo } from "@/components/brand-logo";
+import { LegalPage } from "@/components/legal/legal-page";
+import { BUSINESS } from "@/lib/business-info";
 
 export const metadata: Metadata = {
   title: "Terms of Service",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const sections = [
   {
     title: "1. Agreement and eligibility",
-    body: "By creating an account or using FixItFast, you agree to these terms. You must be at least 13 years old. If you use FixItFast for a business, you confirm that you have authority to bind that business to these terms.",
+    body: "By creating an account or using FixItFast, you agree to these terms and to our Privacy Policy. You must be at least 13 years old to create an account; FixItFast is not directed to children under 13 and does not knowingly collect their information (see the Children's privacy section below). If you use FixItFast for a business, you confirm that you have authority to bind that business to these terms.",
   },
   {
     title: "2. What FixItFast provides",
@@ -24,11 +24,24 @@ const sections = [
   },
   {
     title: "4. Providers and service requests",
-    body: "Providers are responsible for their qualifications, licensing, insurance, availability, pricing, and work. A requested time is not confirmed until the provider accepts it. Customers are responsible for providing accurate job and location details and for providing safe, lawful access to the service location.",
+    body: "Providers are independent professionals or companies responsible for their own qualifications, licensing, insurance, availability, pricing, and work — FixItFast reviews basic account information before approving a provider but does not verify or guarantee a provider's license, insurance, or workmanship. A requested time is not confirmed until the provider accepts it. Customers are responsible for providing accurate job and location details and for providing safe, lawful access to the service location.",
   },
   {
-    title: "5. Estimates and payments",
-    body: "Displayed estimates are starting estimates and may change based on the work, parts, taxes, or conditions found on site. Review the final price with the provider. Payments may be processed by third-party payment providers and may also be subject to their terms.",
+    title: "5. Estimates, payments, and fees",
+    body: (
+      <>
+        Displayed estimates are starting estimates covering the callout and first hour and may change based on the
+        work, parts, taxes, or conditions found on site — the final price is set by the provider and reviewed with
+        you before work continues. Any demand-based (“surge”) multiplier is shown on screen before you pay, and the
+        exact charge amount is shown again on the payment step — nothing is added after checkout. Payments are
+        processed by Stripe, a third-party payment processor, and are also subject to{" "}
+        <a href="https://stripe.com/legal/consumer" target="_blank" rel="noopener noreferrer" className="text-brand-700 underline hover:text-brand-800">
+          Stripe’s terms
+        </a>
+        . See our <Link href="/refunds" className="text-brand-700 underline hover:text-brand-800">Refund &amp; Cancellation Policy</Link> for
+        when a charge can be refunded.
+      </>
+    ),
   },
   {
     title: "6. Acceptable use",
@@ -40,45 +53,88 @@ const sections = [
   },
   {
     title: "8. Limitation of liability",
-    body: "To the extent permitted by law, FixItFast will not be liable for indirect, incidental, special, consequential, or punitive damages, or for losses arising from a provider’s acts, omissions, or services. Rights that cannot legally be limited remain unaffected.",
+    body: "To the extent permitted by law, FixItFast will not be liable for indirect, incidental, special, consequential, or punitive damages, or for losses arising from a provider's acts, omissions, or services. Rights that cannot legally be limited remain unaffected.",
   },
   {
     title: "9. Suspension and termination",
-    body: "You may stop using FixItFast at any time. We may restrict or terminate access when reasonably necessary to protect users, enforce these terms, comply with law, or maintain platform security.",
+    body: (
+      <>
+        You may stop using FixItFast at any time from your account, or by asking us to close it — see{" "}
+        <Link href="/data-request" className="text-brand-700 underline hover:text-brand-800">
+          Access or delete your data
+        </Link>
+        . We may restrict or terminate access when reasonably necessary to protect users, enforce these terms,
+        comply with law, or maintain platform security.
+      </>
+    ),
   },
   {
-    title: "10. Changes and contact",
-    body: "We may update these terms as the service changes. We will post the revised terms and update the effective date. Continued use after an update means you accept the revised terms. Questions may be sent to adityamirchandani@fixit-fast.com.",
+    title: "10. Children's privacy",
+    body: "FixItFast is intended for users 13 and older and is not directed to children. We do not knowingly collect personal information from anyone under 13. If you believe a child under 13 has created an account or given us information, contact us using the details below and we will delete it.",
+  },
+  {
+    title: "11. Governing law",
+    body: `These terms are governed by the laws of ${BUSINESS.jurisdiction}, without regard to conflict-of-law rules, except where local consumer-protection law requires otherwise.`,
+  },
+  {
+    title: "12. Changes and contact",
+    body: (
+      <>
+        We may update these terms as the service changes. We will post the revised terms and update the effective
+        date. Continued use after an update means you accept the revised terms. Questions, including about this
+        entity’s identity, may be sent to{" "}
+        <a href={`mailto:${BUSINESS.supportEmail}`} className="text-brand-700 underline hover:text-brand-800">
+          {BUSINESS.supportEmail}
+        </a>{" "}
+        or (404) 855-1929.
+      </>
+    ),
   },
 ];
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-ink-50 text-ink-900">
-      <header className="border-b border-border bg-surface">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
-          <Link href="/" aria-label="FixItFast home"><BrandLogo /></Link>
-          <Link href="/" className="flex items-center gap-2 text-sm text-ink-600 hover:text-ink-900">
-            <ArrowLeft size={16} /> Back home
-          </Link>
+    <LegalPage
+      title="Terms of Service"
+      effectiveDate="September 21, 2026"
+      intro="These Terms of Service govern your access to and use of FixItFast. Please read them before creating an account or submitting a service request."
+      sections={sections}
+    >
+      <BusinessDetails />
+    </LegalPage>
+  );
+}
+
+function BusinessDetails() {
+  return (
+    <section className="mt-9 rounded-[var(--radius-lg)] border border-border bg-surface p-5 text-sm leading-6 text-ink-600">
+      <h2 className="font-display text-base font-semibold text-ink-900">Who runs FixItFast</h2>
+      <dl className="mt-3 grid gap-2 sm:grid-cols-2">
+        <div>
+          <dt className="text-xs font-medium uppercase tracking-wide text-ink-500">Operated by</dt>
+          <dd>{BUSINESS.legalName}</dd>
         </div>
-      </header>
-      <main className="mx-auto max-w-3xl px-6 py-14 sm:py-20">
-        <span className="text-xs font-semibold uppercase tracking-[.16em] text-brand-700">Legal</span>
-        <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight">Terms of Service</h1>
-        <p className="mt-3 text-sm text-ink-500">Effective September 21, 2026</p>
-        <p className="mt-8 text-base leading-7 text-ink-700">
-          These Terms of Service govern your access to and use of FixItFast. Please read them before creating an account or submitting a service request.
-        </p>
-        <div className="mt-10 space-y-9">
-          {sections.map((section) => (
-            <section key={section.title}>
-              <h2 className="font-display text-xl font-semibold">{section.title}</h2>
-              <p className="mt-3 text-sm leading-7 text-ink-600">{section.body}</p>
-            </section>
-          ))}
+        <div>
+          <dt className="text-xs font-medium uppercase tracking-wide text-ink-500">Address</dt>
+          <dd>{BUSINESS.address}</dd>
         </div>
-      </main>
-    </div>
+        <div>
+          <dt className="text-xs font-medium uppercase tracking-wide text-ink-500">Support email</dt>
+          <dd>
+            <a href={`mailto:${BUSINESS.supportEmail}`} className="text-brand-700 underline hover:text-brand-800">
+              {BUSINESS.supportEmail}
+            </a>
+          </dd>
+        </div>
+        <div>
+          <dt className="text-xs font-medium uppercase tracking-wide text-ink-500">Support phone</dt>
+          <dd>
+            <a href={`tel:${BUSINESS.supportPhoneHref}`} className="text-brand-700 underline hover:text-brand-800">
+              {BUSINESS.supportPhone}
+            </a>
+          </dd>
+        </div>
+      </dl>
+    </section>
   );
 }

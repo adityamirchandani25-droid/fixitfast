@@ -22,9 +22,16 @@ export function SiteFooter() {
           </Link>
         </div>
       </div>
-      <p className="mt-8 text-center text-xs text-ink-400 sm:text-left">
-        &copy; {new Date().getFullYear()} FixItFast
-      </p>
+      <div className="mt-8 flex flex-col items-center gap-3 text-xs text-ink-500 sm:flex-row sm:items-center sm:justify-between sm:text-left">
+        <p className="text-ink-400">&copy; {new Date().getFullYear()} FixItFast</p>
+        <nav aria-label="Legal" className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+          <Link href="/terms" className="hover:underline hover:text-ink-700">Terms</Link>
+          <Link href="/privacy" className="hover:underline hover:text-ink-700">Privacy</Link>
+          <Link href="/cookies" className="hover:underline hover:text-ink-700">Cookies</Link>
+          <Link href="/refunds" className="hover:underline hover:text-ink-700">Refunds</Link>
+          <Link href="/data-request" className="hover:underline hover:text-ink-700">Your data</Link>
+        </nav>
+      </div>
     </footer>
   );
 }

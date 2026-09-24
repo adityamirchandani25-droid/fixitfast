@@ -31,6 +31,7 @@ export default async function CompanyDashboard() {
         </Link>
         <span className="ts-worker-label">Company</span>
         <div className="ts-account">
+          <Link href="/data-request" className="hover:underline">Privacy &amp; data</Link>
           <SignOutButton />
         </div>
       </header>

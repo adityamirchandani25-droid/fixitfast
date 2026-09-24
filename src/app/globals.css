@@ -20,7 +20,10 @@
   --color-ink-100: #f3f4f6;
   --color-ink-200: #e5e7eb;
   --color-ink-300: #d1d5db;
-  --color-ink-400: #9ca3af;
+  /* Darkened from Tailwind's default gray-400 (#9ca3af, ~2.7:1 on white —
+     fails WCAG contrast) since this token is used for placeholder and
+     secondary label text, not just decoration. ~4:1 on white. */
+  --color-ink-400: #767f8d;
   --color-ink-500: #6b7280;
   --color-ink-600: #4b5563;
   --color-ink-700: #374151;

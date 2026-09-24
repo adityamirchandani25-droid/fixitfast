@@ -66,7 +66,7 @@ export default async function RequestDetailPage({
                 <img
                   key={i}
                   src={photo}
-                  alt=""
+                  alt={`Photo ${i + 1} attached to this service request`}
                   className="h-20 w-20 rounded-[var(--radius-md)] border border-border object-cover"
                 />
               ))}

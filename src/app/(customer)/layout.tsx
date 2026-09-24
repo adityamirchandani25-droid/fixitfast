@@ -37,6 +37,12 @@ export default async function CustomerLayout({ children }: { children: ReactNode
             </Link>
             <div className="ml-3 flex items-center gap-2 border-l border-border pl-3">
               <span className="hidden text-sm text-ink-600 sm:block">{session.user.name}</span>
+              <Link
+                href="/data-request"
+                className="hidden rounded-[var(--radius-md)] px-3 py-2 text-sm font-medium text-ink-600 transition-colors hover:bg-ink-100 sm:block"
+              >
+                Privacy &amp; data
+              </Link>
               <SignOutButton />
             </div>
           </nav>

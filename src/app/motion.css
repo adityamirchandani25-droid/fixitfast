@@ -164,7 +164,10 @@
 @keyframes hero-copy-in { from { opacity: 0; transform: translateY(22px); filter: blur(5px); } to { opacity: 1; transform: none; filter: none; } }
 @keyframes preview-arrive { from { opacity: 0; transform: perspective(1200px) rotateY(-9deg) rotateX(4deg) translateY(28px) scale(.96); } to { opacity: 1; transform: perspective(1200px) rotateY(-3deg) rotateX(1.5deg); } }
 @keyframes strip-arrive { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: none; } }
-@keyframes live-pulse { 0% { box-shadow: 0 0 0 0 rgb(89 223 135 / .42); } 70%, 100% { box-shadow: 0 0 0 12px rgb(89 223 135 / 0); } }
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgb(89 223 135 / .14), 0 0 9px rgb(89 223 135 / .18); }
+  50% { box-shadow: 0 0 0 6px rgb(89 223 135 / .08), 0 0 14px rgb(89 223 135 / .28); }
+}
 @keyframes map-beacon { 0% { box-shadow: 0 0 0 0 rgb(245 106 42 / .38); } 70%, 100% { box-shadow: 0 0 0 13px rgb(245 106 42 / 0); } }
 @keyframes tool-wiggle { 0%, 82%, 100% { transform: rotate(0); } 88% { transform: rotate(-12deg); } 94% { transform: rotate(9deg); } }
 @keyframes arrow-nudge { 0%, 62%, 100% { transform: translateX(0); } 76% { transform: translateX(4px); } }
@@ -194,6 +197,6 @@
 @media (prefers-reduced-motion: reduce) {
   .route-stage { animation: none; }
   .navigation-transition { display: none; }
-  .route-loader-glow, .route-loader-glow::before, .route-loader-glow::after, .house-build *, .build-orbit, .loader-dots i { animation: none !important; }
+  .route-loader-glow, .route-loader-glow::before, .route-loader-glow::after, .house-build *, .build-orbit, .loader-dots i, .landing-product-preview::before { animation: none !important; }
   .house-walls, .house-window, .house-door, .house-roof { opacity: 1; transform: none; }
 }

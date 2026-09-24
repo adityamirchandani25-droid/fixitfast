@@ -94,7 +94,7 @@ export function DetailsStep({
             <div key={i} className="group relative h-20 w-20 overflow-hidden rounded-[var(--radius-md)] border border-border">
               {/* Local data-URL previews — next/image can't optimize these. */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={photo} alt="" className="h-full w-full object-cover" />
+              <img src={photo} alt={`Photo ${i + 1} attached to this service request`} className="h-full w-full object-cover" />
               <button
                 type="button"
                 onClick={() => onPhotosChange(photos.filter((_, idx) => idx !== i))}

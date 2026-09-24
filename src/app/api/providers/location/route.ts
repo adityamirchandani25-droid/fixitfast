@@ -1,61 +1,77 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 const locationSchema = z.object({
   lat: z.number().min(-90).max(90),
   lng: z.number().min(-180).max(180),
 });
 
-async function requireWorkerProvider() {
-  const session = await auth();
-  if (!session?.user || session.user.role !== "PROVIDER") return null;
-  return prisma.provider.findUnique({
-    where: { userId: session.user.id },
-    select: { id: true, approvalStatus: true },
-  });
+async function authenticatedUserId() {
+  const supabase = await createSupabaseServerClient();
+  const { data, error } = await supabase.auth.getClaims();
+  const userId = data?.claims?.sub;
+  return error || typeof userId !== "string" ? null : userId;
 }
 
-/** Worker's dashboard calls this on an interval (via watchPosition) while
- * "share my location" is on. A plain route handler rather than a server
- * action since it's polled every few seconds, not tied to a form submit. */
+function unavailable(error: unknown) {
+  console.error("Worker location update failed", error);
+  return NextResponse.json(
+    { error: "Location service is temporarily unavailable" },
+    { status: 503, headers: { "Cache-Control": "no-store", "Retry-After": "2" } },
+  );
+}
+
+/** The worker dashboard calls this periodically while location sharing is on.
+ * A route handler fits this background heartbeat better than a form action. */
 export async function POST(request: Request) {
-  const provider = await requireWorkerProvider();
-  if (!provider) return NextResponse.json({ error: "Not authorized" }, { status: 401 });
-  if (provider.approvalStatus !== "APPROVED") {
-    return NextResponse.json({ error: "Your account isn’t approved yet" }, { status: 403 });
+  try {
+    const userId = await authenticatedUserId();
+    if (!userId) return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+
+    const body = await request.json().catch(() => null);
+    const parsed = locationSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: "lat/lng out of range" }, { status: 400 });
+    }
+
+    const result = await prisma.provider.updateMany({
+      where: { userId, approvalStatus: "APPROVED" },
+      data: {
+        currentLat: parsed.data.lat,
+        currentLng: parsed.data.lng,
+        locationUpdatedAt: new Date(),
+        isOnline: true,
+      },
+    });
+    if (result.count === 0) {
+      return NextResponse.json(
+        { error: "Your worker account isn’t approved for location sharing" },
+        { status: 403 },
+      );
+    }
+
+    return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
+  } catch (error) {
+    return unavailable(error);
   }
-
-  const body = await request.json().catch(() => null);
-  const parsed = locationSchema.safeParse(body);
-  if (!parsed.success) {
-    return NextResponse.json({ error: "lat/lng out of range" }, { status: 400 });
-  }
-
-  await prisma.provider.update({
-    where: { id: provider.id },
-    data: {
-      currentLat: parsed.data.lat,
-      currentLng: parsed.data.lng,
-      locationUpdatedAt: new Date(),
-      isOnline: true,
-    },
-  });
-
-  return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
 }
 
 /** "Stop sharing my location" — takes the worker off the customer-facing
  * map immediately without discarding their last known position. */
 export async function DELETE() {
-  const provider = await requireWorkerProvider();
-  if (!provider) return NextResponse.json({ error: "Not authorized" }, { status: 401 });
+  try {
+    const userId = await authenticatedUserId();
+    if (!userId) return NextResponse.json({ error: "Not authorized" }, { status: 401 });
 
-  await prisma.provider.update({
-    where: { id: provider.id },
-    data: { isOnline: false },
-  });
+    await prisma.provider.updateMany({
+      where: { userId },
+      data: { isOnline: false },
+    });
 
-  return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
+    return NextResponse.json({ ok: true }, { headers: { "Cache-Control": "no-store" } });
+  } catch (error) {
+    return unavailable(error);
+  }
 }

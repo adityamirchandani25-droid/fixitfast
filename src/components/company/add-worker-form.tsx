@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -82,10 +83,23 @@ export function AddWorkerForm() {
         </Field>
       </div>
 
+      <p className="mt-4 text-xs leading-relaxed text-ink-500">
+        By adding a worker, you confirm you have their permission to create this account on their behalf and to
+        share their name, email, and phone with FixItFast for that purpose — see our{" "}
+        <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="underline hover:text-ink-700">
+          Privacy Policy
+        </Link>
+        . They can review the{" "}
+        <Link href="/terms" target="_blank" rel="noopener noreferrer" className="underline hover:text-ink-700">
+          Terms of Service
+        </Link>{" "}
+        and change their password once they log in.
+      </p>
+
       {formError && <p role="alert" className="mt-4 text-[13px] text-red-600">{formError}</p>}
       {successMessage && <p role="status" className="mt-4 text-[13px] text-emerald-700">{successMessage}</p>}
 
-      <Button type="submit" disabled={isSubmitting}>
+      <Button type="submit" disabled={isSubmitting} className="mt-4">
         {isSubmitting ? "Adding worker..." : "Add worker"}
       </Button>
     </form>

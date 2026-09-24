@@ -204,11 +204,13 @@ async function createAccount(
       },
       select: { id: true },
     });
+    // Deliberately indistinguishable from a genuine new signup below —
+    // announcing "that email already exists" lets anyone script account
+    // enumeration by email/phone. Nothing is created here; a real owner
+    // who mistakenly tries to re-register just sees the same "check your
+    // email" response and can use "forgot password" instead.
     if (existing) {
-      return {
-        ok: false,
-        error: "An account with that email or phone already exists",
-      };
+      return { ok: true, requiresEmailConfirmation: true };
     }
 
     const supabase = await createSupabaseServerClient();
@@ -237,12 +239,16 @@ async function createAccount(
       },
     });
 
-    if (error) return { ok: false, error: signupErrorMessage(error.code) };
+    if (error) {
+      if (error.code === "user_already_exists" || error.code === "email_exists") {
+        return { ok: true, requiresEmailConfirmation: true };
+      }
+      return { ok: false, error: signupErrorMessage(error.code) };
+    }
+    // Supabase's own "already registered" signal — same non-committal
+    // response as the pre-check above, for the same reason.
     if (!data.user || data.user.identities?.length === 0) {
-      return {
-        ok: false,
-        error: "An account with that email already exists",
-      };
+      return { ok: true, requiresEmailConfirmation: true };
     }
 
     try {
@@ -282,9 +288,8 @@ function invalidPortalLogin(
 }
 
 function signupErrorMessage(code?: string) {
-  if (code === "user_already_exists" || code === "email_exists") {
-    return "An account with that email already exists";
-  }
+  // user_already_exists / email_exists are intercepted before this runs
+  // (see createAccount) so they never reveal account existence here.
   if (code === "over_email_send_rate_limit") {
     return "Too many confirmation emails were requested. Wait a few minutes and try again.";
   }

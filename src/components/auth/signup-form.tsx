@@ -70,8 +70,10 @@ export function SignupForm({ callbackUrl, portal = "CUSTOMER" }: { callbackUrl: 
       }
 
       if (result.requiresEmailConfirmation) {
+        // Deliberately the same wording whether this email is new or
+        // already registered — see createAccount in lib/actions/auth.ts.
         setSuccessMessage(
-          "Account created. Check your email to confirm it, then log in.",
+          "If this is a new account, check your email for a confirmation link. If you already have an account with this email, sign in instead.",
         );
         return;
       }
@@ -153,6 +155,10 @@ export function SignupForm({ callbackUrl, portal = "CUSTOMER" }: { callbackUrl: 
               I agree to the{" "}
               <Link href="/terms" target="_blank" rel="noopener noreferrer" className="text-brand-700 underline hover:text-brand-800">
                 Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" target="_blank" rel="noopener noreferrer" className="text-brand-700 underline hover:text-brand-800">
+                Privacy Policy
               </Link>.
             </span>
           </label>
