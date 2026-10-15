@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { LegalPage } from "@/components/legal/legal-page";
+import { LegalPage, LegalSectionBlock } from "@/components/legal/legal-page";
 import { DeleteAccountForm } from "@/components/account/delete-account-form";
 import { BUSINESS } from "@/lib/business-info";
 import { auth } from "@/lib/auth";
@@ -40,9 +40,8 @@ export default async function DataRequestPage() {
       intro="Use this page to request a copy of your data, correct it, or delete your account. See the Privacy Policy for what's kept and why."
       sections={sections}
     >
-      <section className="mt-9">
-        <h2 className="font-display text-xl font-semibold">Delete your account</h2>
-        <p className="mt-3 text-sm leading-7 text-ink-600">
+      <LegalSectionBlock title="Delete your account">
+        <p>
           This removes your name, email, phone number, and photo, and disables sign-in immediately. Job and payment
           records tied to your account are kept in de-identified form only as long as required for accounting and
           dispute records, then removed.
@@ -50,7 +49,7 @@ export default async function DataRequestPage() {
         <div className="mt-4">
           <DeleteAccountForm signedIn={!!session} />
         </div>
-      </section>
+      </LegalSectionBlock>
     </LegalPage>
   );
 }

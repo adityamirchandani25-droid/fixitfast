@@ -22,6 +22,10 @@ const nextConfig: NextConfig = {
           { key: "Cross-Origin-Opener-Policy", value: "same-origin-allow-popups" },
         ],
       },
+      // Cache-Control: no-store for the signed-in account routes is set in
+      // src/lib/supabase/proxy.ts (middleware) instead of here — Next's own
+      // default for dynamically-rendered pages overwrites a static rule
+      // placed in this config, so it has to be applied at request time.
     ];
   },
 };

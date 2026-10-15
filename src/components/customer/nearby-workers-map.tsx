@@ -98,7 +98,7 @@ function NearbyWorkersMapView({ lat, lng }: { lat: number; lng: number }) {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
       }).addTo(instance);
-      L.circleMarker([lat, lng], { radius: 6, color: "#2457d6", fillColor: "#2457d6", fillOpacity: 1, weight: 2 })
+      L.circleMarker([lat, lng], { radius: 6, color: "#e95122", fillColor: "#e95122", fillOpacity: 1, weight: 2 })
         .addTo(instance)
         .bindTooltip("You");
       layer.current = L.layerGroup().addTo(instance);
@@ -143,8 +143,8 @@ function NearbyWorkersMapView({ lat, lng }: { lat: number; lng: number }) {
       workers.forEach((worker) => {
         L.circleMarker([worker.lat, worker.lng], {
           radius: 8,
-          color: "#16a34a",
-          fillColor: "#16a34a",
+          color: "#17875d",
+          fillColor: "#17875d",
           fillOpacity: 0.85,
           weight: 2,
         })

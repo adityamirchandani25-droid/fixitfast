@@ -1,0 +1,46 @@
+/* Customer dashboard: physical card feedback.
+ * Selectors are prefixed with .cd-dashboard so they outrank the shared
+ * `.route-stage :where(a, button)` transition/press rules in motion.css. */
+.cd-dashboard {
+  /* Critically damped spring (damping 1.0, response 0.35s) sampled into linear(). */
+  --cd-spring: linear(0, 0.005 1.2%, 0.042 3.6%, 0.127 6.9%, 0.256 10.9%, 0.407 15.6%, 0.557 20.8%, 0.69 26.6%, 0.795 33%, 0.872 39.8%, 0.924 47.1%, 0.957 54.9%, 0.977 63.1%, 0.988 71.7%, 0.994 80.8%, 1);
+}
+
+.cd-dashboard a.cd-row {
+  display: block;
+  border-radius: var(--radius-lg);
+  transition: transform .5s var(--cd-spring);
+}
+.cd-dashboard .cd-row .cd-card {
+  transition: box-shadow .5s var(--cd-spring), border-color .2s ease;
+}
+.cd-dashboard .cd-row .cd-row-icon {
+  transition: background-color .2s ease;
+}
+
+/* Hover lifts toward the pointer: only on devices that can actually hover, so touch never sticks. */
+@media (hover: hover) {
+  .cd-dashboard a.cd-row:hover { transform: translateY(-2px); }
+  .cd-dashboard .cd-row:hover .cd-card {
+    border-color: var(--color-ink-300);
+    box-shadow: var(--shadow-raised);
+  }
+  .cd-dashboard .cd-row:hover .cd-row-icon { background-color: var(--color-brand-200); }
+}
+
+/* Press lands on pointer-down: the card settles back onto the surface, shadow collapses with it. */
+.cd-dashboard a.cd-row:active {
+  transform: translateY(0) scale(.985);
+  transition-duration: 90ms;
+  transition-timing-function: ease-out;
+}
+.cd-dashboard .cd-row:active .cd-card {
+  box-shadow: var(--shadow-card);
+  transition-duration: 90ms;
+  transition-timing-function: ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cd-dashboard a.cd-row:hover,
+  .cd-dashboard a.cd-row:active { transform: none; }
+}

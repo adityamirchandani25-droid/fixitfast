@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { ArrowLeft } from "lucide-react";
-import { BrandLogo } from "@/components/brand-logo";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 export interface LegalSection {
   title: string;
@@ -29,36 +29,37 @@ export function LegalPage({
   children?: ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-ink-50 text-ink-900">
-      <header className="border-b border-border bg-surface">
-        <div className="mx-auto flex max-w-4xl items-center justify-between px-6 py-5">
-          <Link href="/" aria-label="FixItFast home">
-            <BrandLogo />
-          </Link>
-          <Link href="/" className="flex items-center gap-2 text-sm text-ink-600 hover:text-ink-900 hover:underline">
-            <ArrowLeft size={16} /> Back home
-          </Link>
+    <div className="site-page">
+      <SiteHeader />
+      <main id="main" className="site-legal">
+        <div className="site-legal-head">
+          <span className="site-overline">{eyebrow}</span>
+          <h1 className="site-display">{title}</h1>
+          <p className="site-legal-date">Effective {effectiveDate}</p>
+          {intro && <p className="site-lede">{intro}</p>}
         </div>
-      </header>
-      <main id="main" className="mx-auto max-w-3xl px-6 py-14 sm:py-20">
-        <span className="text-xs font-semibold uppercase tracking-[.16em] text-brand-700">{eyebrow}</span>
-        <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight">{title}</h1>
-        <p className="mt-3 text-sm text-ink-500">Effective {effectiveDate}</p>
-        {intro && <p className="mt-8 text-base leading-7 text-ink-700">{intro}</p>}
         {sections && (
-          <div className="mt-10 space-y-9">
+          <div className="site-legal-sections">
             {sections.map((section) => (
-              <section key={section.title}>
-                <h2 className="font-display text-xl font-semibold">{section.title}</h2>
-                <div className="mt-3 text-sm leading-7 text-ink-600">{section.body}</div>
-              </section>
+              <LegalSectionBlock key={section.title} title={section.title}>{section.body}</LegalSectionBlock>
             ))}
           </div>
         )}
         {children}
         <LegalCrossLinks />
       </main>
+      <SiteFooter />
     </div>
+  );
+}
+
+/** One row of a legal page: title on the left, body on the right (stacked on small screens). */
+export function LegalSectionBlock({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <section className="site-legal-section">
+      <h2>{title}</h2>
+      <div>{children}</div>
+    </section>
   );
 }
 
@@ -71,14 +72,12 @@ function LegalCrossLinks() {
     { href: "/data-request", label: "Access or delete your data" },
   ];
   return (
-    <nav aria-label="Other legal pages" className="mt-14 border-t border-border pt-6">
-      <p className="text-xs font-semibold uppercase tracking-wide text-ink-500">Related</p>
-      <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2 text-sm">
+    <nav aria-label="Other legal pages" className="site-legal-related">
+      <span className="site-overline">Related</span>
+      <ul>
         {links.map((link) => (
           <li key={link.href}>
-            <Link href={link.href} className="text-brand-700 underline hover:text-brand-800">
-              {link.label}
-            </Link>
+            <Link href={link.href}>{link.label}</Link>
           </li>
         ))}
       </ul>

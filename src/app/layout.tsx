@@ -14,6 +14,7 @@ import "./globals.dark.css";
 import "./product-polish.css";
 import "./product-polish.dark.css";
 import "./theme.css";
+import "./site-theme.css";
 
 const publicSans = Public_Sans({
   variable: "--font-sans",

@@ -24,7 +24,7 @@ export default function CompanyMap({ center, listings, selectedId, onSelect, loc
       map.current = instance;
       L.control.zoom({ position: "bottomright" }).addTo(instance);
       L.tileLayer(process.env.NEXT_PUBLIC_MAP_TILE_URL || "https://tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors', maxZoom: 19 }).on("tileerror", () => setTileError(true)).addTo(instance);
-      L.circleMarker([center.lat, center.lng], { radius: 6, color: "#2457d6", fillColor: "#2457d6", fillOpacity: 1, weight: 2 }).addTo(instance).bindTooltip("Your approximate location");
+      L.circleMarker([center.lat, center.lng], { radius: 6, color: "#e95122", fillColor: "#e95122", fillOpacity: 1, weight: 2 }).addTo(instance).bindTooltip("Your approximate location");
       layer.current = L.layerGroup().addTo(instance);
       resize = new ResizeObserver(() => instance.invalidateSize());
       resize.observe(container.current);

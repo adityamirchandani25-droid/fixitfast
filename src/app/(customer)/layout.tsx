@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { auth } from "@/lib/auth";
-import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import { accountHome } from "@/lib/auth-routing";
 
@@ -17,35 +17,22 @@ export default async function CustomerLayout({ children }: { children: ReactNode
 
   return (
     <div className="flex min-h-screen flex-col">
-      <header className="border-b border-border bg-surface-raised">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
-          <Link
-            href="/"
-            className="font-display text-lg font-semibold tracking-tight text-ink-900"
-          >
+      <header className="app-header">
+        <div>
+          <Link href="/" aria-label="FixItFast home">
             <BrandLogo />
           </Link>
-          <nav className="flex items-center gap-1">
-            <Link
-              href="/dashboard"
-              className="rounded-[var(--radius-md)] px-3 py-2 text-sm font-medium text-ink-600 transition-colors hover:bg-ink-100"
-            >
-              My requests
-            </Link>
-            <Link href="/request/new" className="ml-1">
-              <Button size="sm">New request</Button>
-            </Link>
-            <div className="ml-3 flex items-center gap-2 border-l border-border pl-3">
-              <span className="hidden text-sm text-ink-600 sm:block">{session.user.name}</span>
-              <Link
-                href="/data-request"
-                className="hidden rounded-[var(--radius-md)] px-3 py-2 text-sm font-medium text-ink-600 transition-colors hover:bg-ink-100 sm:block"
-              >
-                Privacy &amp; data
-              </Link>
-              <SignOutButton />
-            </div>
+          <nav aria-label="Account navigation">
+            <Link href="/dashboard">My requests</Link>
+            <Link href="/data-request">Privacy &amp; data</Link>
           </nav>
+          <div className="app-header-account">
+            <span>{session.user.name}</span>
+            <SignOutButton />
+            <Link href="/request/new" className="app-header-cta">
+              New request <Plus size={15} strokeWidth={2.25} />
+            </Link>
+          </div>
         </div>
       </header>
       <main className="flex flex-1 flex-col bg-surface">{children}</main>
